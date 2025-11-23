@@ -24,7 +24,10 @@ internal static class RepositoryAffinity
             {
                 GitRepository repository = repositories[i];
                 string key = GetSettingKey(repository.Name, repository.HttpsUrl.OriginalString);
-                counts[i] = LocalSetting.Get(key, 0);
+
+                // 对读取值做下限保护，确保排序使用的是非负失败计数
+                int raw = LocalSetting.Get(key, 0);
+                counts[i] = Math.Max(0, raw);
             }
 
             Array.Sort(counts, ImmutableCollectionsMarshal.AsArray(repositories));
@@ -43,7 +46,12 @@ internal static class RepositoryAffinity
         {
             string key = GetSettingKey(name, url);
             int currentCount = LocalSetting.Get(key, 0);
-            LocalSetting.Set(key, unchecked(currentCount + 1));
+
+            // 防止整数上溢：当已到达 int.MaxValue 时不再自增
+            if (currentCount < int.MaxValue)
+            {
+                LocalSetting.Set(key, currentCount + 1);
+            }
         }
     }
 
@@ -58,7 +66,12 @@ internal static class RepositoryAffinity
         {
             string key = GetSettingKey(name, url);
             int currentCount = LocalSetting.Get(key, 0);
-            LocalSetting.Set(key, unchecked(currentCount - 1));
+
+            // 失败次数不允许小于 0，避免出现负数或整型下溢
+            if (currentCount > 0)
+            {
+                LocalSetting.Set(key, currentCount - 1);
+            }
         }
     }
 
