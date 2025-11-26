@@ -19,7 +19,7 @@ jobs:
           dotnet-version: 10.0.x
 
       - name: Install Wix Toolset 4
-        run: dotnet tool install --global WixToolset.Wix --version 4.0.1
+        run: dotnet tool install --global WixToolset.wix --version 4.0.1
 
       - name: Restore NuGet packages
         run: dotnet restore
