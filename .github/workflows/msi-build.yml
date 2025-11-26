@@ -22,7 +22,7 @@ jobs:
         run: dotnet tool install --global wix --version 4.0.1
 
       - name: Restore NuGet packages
-        run: dotnet restore
+        run: dotnet restore Snap.Hutao.slnx
 
       - name: Build WinUI 3 project (self-contained)
         run: dotnet publish src/Snap.Hutao/Snap.Hutao.csproj `
