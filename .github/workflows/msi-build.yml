@@ -1,0 +1,41 @@
+name: Build MSI Installer
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Install Wix Toolset 4
+        run: dotnet tool install --global WixToolset.Wix --version 4.0.1
+
+      - name: Restore NuGet packages
+        run: dotnet restore
+
+      - name: Build WinUI 3 project (self-contained)
+        run: dotnet publish src/Snap.Hutao/Snap.Hutao.csproj `
+              -c Release `
+              -r win-x64 `
+              --self-contained true
+
+      - name: Build MSI installer
+        run: dotnet build src/Snap.Hutao/Snap.Hutao.Installer/Snap.Hutao.Installer.wixproj -c Release
+
+      - name: Upload MSI Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Snap.Hutao-MSI
+          path: |
+            src/Snap.Hutao.Installer/bin/Release/*.msi
