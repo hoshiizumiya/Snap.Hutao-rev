@@ -25,7 +25,7 @@ jobs:
         run: dotnet restore src/Snap.Hutao/Snap.Hutao.slnx
 
       - name: Build WinUI 3 project (self-contained)
-        run: build src/Snap.Hutao/Snap.Hutao/Snap.Hutao.csproj -c Release
+        run: dotnet build src/Snap.Hutao/Snap.Hutao/Snap.Hutao.csproj -c Release
 
       - name: Build MSI installer
         run: dotnet build src/Snap.Hutao/Snap.Hutao.Installer/Snap.Hutao.Installer.wixproj -c Release
