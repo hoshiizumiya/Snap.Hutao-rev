@@ -25,7 +25,7 @@ jobs:
         run: dotnet restore src/Snap.Hutao/Snap.Hutao.slnx
 
       - name: Build WinUI 3 project (self-contained)
-        run: dotnet publish src/Snap.Hutao/Snap.Hutao.csproj `
+        run: dotnet publish src/Snap.Hutao/Snap.Hutao/Snap.Hutao.csproj `
               -c Release `
               -r win-x64 `
               --self-contained true
