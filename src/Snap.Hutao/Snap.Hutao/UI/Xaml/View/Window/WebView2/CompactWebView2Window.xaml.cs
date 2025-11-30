@@ -6,6 +6,7 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.Web.WebView2.Core;
+using Snap.Hutao.Core;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.UI.Input.LowLevel;
@@ -60,6 +61,7 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
     private readonly SemaphoreSlim webview2LoadLock = new(1, 1);
     private readonly Lock layeredWindowLock = new();
     private readonly byte opacity;
+    private readonly bool isLowLevelKeyboardEnabled;
 
     private readonly LowLevelKeyOptions lowLevelKeyOptions;
     private readonly ITaskContext taskContext;
@@ -69,6 +71,7 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
     public CompactWebView2Window(IServiceProvider serviceProvider)
     {
         opacity = (byte)(LocalSetting.Get(SettingKeys.CompactWebView2WindowInactiveOpacity, 50D) * 255 / 100);
+        isLowLevelKeyboardEnabled = HutaoRuntime.IsProcessElevated;
 
         if (AppWindow.Presenter is OverlappedPresenter presenter)
         {
@@ -94,8 +97,12 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
 
         InputActivationListener.GetForWindowId(AppWindow.Id).InputActivationChanged += OnInputActivationChanged;
 
-        InputLowLevelKeyboardSource.KeyDown += OnLowLevelKeyDown;
-        InputLowLevelKeyboardSource.Initialize();
+        // Only enable low-level keyboard hooks when running elevated
+        if (isLowLevelKeyboardEnabled)
+        {
+            InputLowLevelKeyboardSource.KeyDown += OnLowLevelKeyDown;
+            InputLowLevelKeyboardSource.Initialize();
+        }
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;
@@ -149,8 +156,12 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
 
         LocalSetting.Set(SettingKeys.CompactWebView2WindowPreviousSourceUrl, Source);
 
-        InputLowLevelKeyboardSource.KeyDown -= OnLowLevelKeyDown;
-        InputLowLevelKeyboardSource.Uninitialize();
+        // Only uninitialize low-level keyboard hooks if they were enabled
+        if (isLowLevelKeyboardEnabled)
+        {
+            InputLowLevelKeyboardSource.KeyDown -= OnLowLevelKeyDown;
+            InputLowLevelKeyboardSource.Uninitialize();
+        }
 
         InputActivationListener.GetForWindowId(AppWindow.Id).InputActivationChanged -= OnInputActivationChanged;
         webview2LoadLock.Release();
