@@ -3775,7 +3775,10 @@
     <value>武器资料</value>
   </data>
   <data name="ViewWindowCompactWebViewTitle" xml:space="preserve">
-    <value>紧凑网页窗口（仅管理员）</value>
+    <value>紧凑网页窗口</value>
+  </data>
+  <data name="ViewWindowCompactWebView2HotKeyDisabledMessage" xml:space="preserve">
+    <value>以管理员身份运行以启用全局快捷键功能</value>
   </data>
   <data name="ViewWindowExceptionClose" xml:space="preserve">
     <value>关闭</value>
