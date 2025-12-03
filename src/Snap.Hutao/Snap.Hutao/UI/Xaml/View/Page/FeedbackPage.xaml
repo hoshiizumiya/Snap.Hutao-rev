@@ -99,7 +99,7 @@
                                             IsClickEnabled="True"/>
                                         <cwcont:SettingsCard
                                             Command="{Binding NavigateToUriCommand}"
-                                            CommandParameter="https://status.snapgenshin.cn/status"
+                                            CommandParameter="http://serverjp.wdg.cloudns.ch:3001/status/hts"
                                             Description="{shuxm:ResourceString Name=ViewPageFeedbackServerStatusDescription}"
                                             Header="{shuxm:ResourceString Name=ViewPageFeedbackServerStatusHeader}"
                                             IsClickEnabled="True"/>
