@@ -79,7 +79,9 @@ internal sealed class AutoStartService
 
         // /RU <User> omitted to use current user interactive token with /RL HIGHEST and /F
         // Create task that runs at logon
-        string arguments = $"/Create /TN \"{TaskName}\" /TR \"{exePath}\" /SC ONLOGON /RL {runLevel} /F";
+        string arguments = $"/Create /TN \"{TaskName}\" /TR \"\\\"{exePath}\\\"\" /SC ONLOGON /RL {runLevel} /F";
+
+        Debug.WriteLine($"Registering autostart task with arguments: {arguments}");
 
         ProcessStartInfo psi = new()
         {
