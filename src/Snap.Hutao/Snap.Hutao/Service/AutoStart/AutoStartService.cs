@@ -1,4 +1,4 @@
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.ExceptionService;
