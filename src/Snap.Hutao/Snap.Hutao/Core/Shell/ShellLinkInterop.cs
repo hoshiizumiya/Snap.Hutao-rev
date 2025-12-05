@@ -1,5 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
+// Copyright (c) Millennium-Science-Technology-R-D-Inst. All rights reserved.
+// Licensed under the MIT license.
 
 using Snap.Hutao.Core.IO;
 using System.IO;
@@ -25,7 +27,7 @@ internal sealed class ShellLinkInterop : IShellLinkInterop
 
             // Always point the shortcut to the elevated launcher executable and pass FamilyName as argument.
             // The elevated launcher will interpret the argument to activate packaged app when appropriate.
-            FileSystem.CreateLink(elevatedLauncherPath, null, targetLogoPath, target);
+            FileSystem.CreateLink(elevatedLauncherPath, String.Empty, targetLogoPath, target);
 
             return true;
         }

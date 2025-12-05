@@ -65,27 +65,4 @@ internal static class LimitedAccessFeatures
         // Window Decoration API
         KeyValuePair.Create("com.microsoft.windows.windowdecorations", "425261a8-7f73-4319-8a53-fc13f87e1717")
     ]);
-
-    public static Windows.ApplicationModel.LimitedAccessFeatureRequestResult TryUnlockFeature(string featureId)
-    {
-        if (!PackageIdentityAdapter.HasPackageIdentity)
-        {
-            // In unpackaged mode, we can't unlock limited access features
-            // Create a dummy result - actual implementation will handle the failure
-            return default;
-        }
-
-        return Windows.ApplicationModel.LimitedAccessFeatures.TryUnlockFeature(featureId, GetToken(featureId), GetAttestation(featureId));
-    }
-
-    private static string GetToken(string featureId)
-    {
-        byte[] source = Encoding.UTF8.GetBytes($"{featureId}!{Features[featureId]}!{PackageFamilyName}");
-        return Convert.ToBase64String(CryptographicOperations.HashData(HashAlgorithmName.SHA256, source).AsSpan(0, 16));
-    }
-
-    private static string GetAttestation(string featureId)
-    {
-        return $"{PackagePublisherId} has registered their use of {featureId} with Microsoft and agrees to the terms of use.";
-    }
 }

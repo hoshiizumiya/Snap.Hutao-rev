@@ -1,3 +1,6 @@
+// Copyright (c) Millennium-Science-Technology-R-D-Inst. All rights reserved.
+// Licensed under the MIT license.
+
 using Microsoft.UI.Xaml;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
@@ -56,7 +59,7 @@ static partial class NativeMethods
             string exeName = Environment.ProcessPath ?? string.Empty;
 
             // 使用 ShellExecuteW 请求提升（"runas"）
-            IntPtr hInst = NativeMethods.ShellExecuteW(IntPtr.Zero, "runas", exeName, null, null, 1); // SW_SHOWNORMAL = 1
+            IntPtr hInst = NativeMethods.ShellExecuteW(IntPtr.Zero, "runas", exeName, String.Empty, String.Empty, 1); // SW_SHOWNORMAL = 1
 
             // ShellExecute 返回值 > 32 表示成功
             if (hInst == IntPtr.Zero || hInst.ToInt64() <= 32)

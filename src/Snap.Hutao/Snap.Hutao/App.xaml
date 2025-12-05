@@ -81,44 +81,6 @@
 
             <Style BasedOn="{StaticResource DefaultCheckBoxStyle}" TargetType="shuxc:CheckBoxWithDescriptionControl"/>
 
-            <Style x:Key="DefaultIsEnabledTextBlockStyle" TargetType="shuxc:IsEnabledTextBlock">
-                <Setter Property="Foreground" Value="{ThemeResource DefaultTextForegroundThemeBrush}"/>
-                <Setter Property="IsTabStop" Value="False"/>
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="shuxc:IsEnabledTextBlock">
-                            <Grid>
-                                <TextBlock
-                                    x:Name="Label"
-                                    FontFamily="{TemplateBinding FontFamily}"
-                                    FontSize="{TemplateBinding FontSize}"
-                                    FontWeight="{TemplateBinding FontWeight}"
-                                    Foreground="{TemplateBinding Foreground}"
-                                    Opacity="0.8"
-                                    Text="{TemplateBinding Text}"
-                                    TextWrapping="WrapWholeWords"/>
-                                <VisualStateManager.VisualStateGroups>
-                                    <VisualStateGroup x:Name="CommonStates">
-                                        <VisualState x:Name="Normal"/>
-                                        <VisualState x:Name="Disabled">
-                                            <VisualState.Setters>
-                                                <Setter Target="Label.Foreground" Value="{ThemeResource TextFillColorDisabledBrush}"/>
-                                            </VisualState.Setters>
-                                        </VisualState>
-                                    </VisualStateGroup>
-                                </VisualStateManager.VisualStateGroups>
-                            </Grid>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
-            <Style
-                x:Key="SecondaryIsEnabledTextBlockStyle"
-                BasedOn="{StaticResource DefaultIsEnabledTextBlockStyle}"
-                TargetType="shuxc:IsEnabledTextBlock">
-                <Setter Property="FontSize" Value="{StaticResource SecondaryTextFontSize}"/>
-                <Setter Property="Foreground" Value="{ThemeResource TextFillColorSecondaryBrush}"/>
-            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

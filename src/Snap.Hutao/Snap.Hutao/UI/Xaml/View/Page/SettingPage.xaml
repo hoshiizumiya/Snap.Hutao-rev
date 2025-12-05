@@ -26,11 +26,11 @@
                 <Border
                     x:Name="ScrollViewerRightPanel"
                     Width="400"
-                    Margin="0,16,16,16"
+                    Margin="0,16,16,0"
                     VerticalAlignment="Top"
                     cw:Effects.Shadow="{ThemeResource CompatCardShadow}"
                     Visibility="Collapsed">
-                    <Grid Style="{ThemeResource AcrylicGridCardStyle}">
+                    <Grid>
                         <StackPanel Padding="16" Spacing="{ThemeResource SettingsCardSpacing}">
 
                             <Grid Style="{ThemeResource GridCardStyle}">
@@ -89,6 +89,8 @@
                                     Style="{StaticResource CaptionTextBlockStyle}"
                                     Text="Copyright © 2025 - 2026 Millennium Science Technology R-D Inst. All Rights Reserved."/>
                             </Grid>
+
+                            <TextBlock Style="{StaticResource SettingsCardHeaderTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewPageSettingAppBehaviorHeader}"/>
 
                             <cwc:SettingsCard
                                 Command="{Binding CheckUpdateCommand}"
@@ -206,6 +208,8 @@
                                         </StackPanel>
                                     </Grid>
                                 </Grid>
+
+                                <TextBlock Style="{StaticResource SettingsCardHeaderTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewPageSettingAppBehaviorHeader}"/>
 
                                 <cwc:SettingsCard
                                     Command="{Binding CheckUpdateCommand}"
