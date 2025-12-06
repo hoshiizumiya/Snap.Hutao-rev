@@ -18,6 +18,7 @@ using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.UI.Input.KeyboardAndMouse;
 using System.Collections.Immutable;
 using System.Globalization;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Windows.Graphics;
@@ -348,7 +349,24 @@ internal sealed partial class CompactWebView2Window : Microsoft.UI.Xaml.Window,
                     {
                         AdditionalBrowserArguments = "--do-not-de-elevate --autoplay-policy=no-user-gesture-required",
                     };
-                    CoreWebView2Environment environment = await CoreWebView2Environment.CreateWithOptionsAsync(null, null, options);
+
+                    // 如为未打包模式，指定可写的 user data folder 避免在 Program Files 下无法写入
+                    string? userDataFolder = null;
+                    if (!Snap.Hutao.Core.ApplicationModel.PackageIdentityAdapter.HasPackageIdentity)
+                    {
+                        string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+                        userDataFolder = Path.Combine(appData, "CustomWebView2");
+                        try
+                        {
+                            Directory.CreateDirectory(userDataFolder);
+                        }
+                        catch
+                        {
+                            userDataFolder = null;
+                        }
+                    }
+
+                    CoreWebView2Environment environment = await CoreWebView2Environment.CreateWithOptionsAsync(null, userDataFolder, options);
                     await WebView.EnsureCoreWebView2Async(environment);
                 }
                 catch (SEHException ex)
